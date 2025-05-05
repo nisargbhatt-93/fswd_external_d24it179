@@ -1,0 +1,28 @@
+popupBackdrop.style.display='flex'; popupBackdrop.setAttribute('aria-hidden','false');
+popupClose.focus();
+};
+$('popup-close-btn').onclick=()=>{
+popupBackdrop.style.display='none'; popupBackdrop.setAttribute('aria-hidden','true');
+};
+popupBackdrop.onclick=e=>{if(e.target===popupBackdrop){popupBackdrop.style.display='none'; popupBackdrop.setAttribute('aria-hidden','true');}};
+document.addEventListener('keydown', e => { if(e.key==='Escape' && popupBackdrop.style.display==='flex') {popupBackdrop.style.display='none';popupBackdrop.setAttribute('aria-hidden','true');}});
+const deleteEvent = id => { if(confirm('Delete event?')) { state.events= state.events.filter(ev=> ev.id!==id); save(); renderList(searchInput.value); if(state.editingId===id) clearEventForm(); }};
+const startEdit = id => {
+const ev=state.events.find(x=>x.id===id);
+if(!ev) return;
+state.editingId=id;
+formTitle.textContent='Edit Event'; eventSubmitBtn.textContent='Update Event'; cancelEditBtn.style.display='block';
+eventTitle.value=ev.title; eventType.value=ev.type; eventDate.value=ev.date; eventDesc.value=ev.description; eventImage.value=''; eventMsg.textContent=''; eventMsg.style.color='red';
+};
+searchInput.addEventListener('input', e => renderList(e.target.value));
+// Init
+const init = () => {
+load();
+if(state.currentUser) showMain();
+else showAuth();
+};
+window.addEventListener('load', init);
+})();
+</script>
+</body>
+</html>
